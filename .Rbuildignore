@@ -5,3 +5,4 @@
 ^data-raw$
 ^deprecated$
 ^pkgdown$
+^\.travis\.yml$

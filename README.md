@@ -7,7 +7,9 @@
 
 ![](http://img.shields.io/badge/cool-useless-green.svg)
 ![](http://img.shields.io/badge/mini-verse-blue.svg)
-![](http://img.shields.io/badge/very-experimental-orange.svg)
+![](http://img.shields.io/badge/very-experimental-orange.svg) [![Travis
+build
+status](https://travis-ci.org/coolbutuseless/minicss.svg?branch=master)](https://travis-ci.org/coolbutuseless/minicss)
 <!-- badges: end -->
 
 The goal of `minicss` is to be able to programatically create CSS styles
@@ -132,5 +134,30 @@ This is an example of using <span class='mini'>minicss</span> to manipulate CSS.
 </body>
 </html>")
 ```
+
+    =>  <html>
+    =>  <head>
+    =>    <title>Example</title>
+    =>    <style>
+    =>  h1.demo { animation: pulser 0.8s infinite alternate; }
+    =>  .mini { background-color: #a0a0ff; }
+    =>  h2.highlight { text-decoration: underline; }
+    =>  @keyframes pulser {
+    =>      from { color: #123456; }
+    =>      to {
+    =>          color: #1289ae;
+    =>          transform: translateX(10px);
+    =>      }
+    =>  }
+    =>    </style>
+    =>  </head>
+    =>  <body>
+    =>  <div style='border: 1px solid #123456; width: 50%; padding: 10px;'>
+    =>  <h1 class = 'demo'> Hello #Rstats</h1>
+    =>  <h2 class='highlight'> A minicss demo! </h2>
+    =>  This is an example of using <span class='mini'>minicss</span> to manipulate CSS.
+    =>  </div>
+    =>  </body>
+    =>  </html>
 
 <img src="man/figures/readme.gif">

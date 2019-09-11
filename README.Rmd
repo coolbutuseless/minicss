@@ -61,6 +61,7 @@ image_read("man/figures/logo.png")
 ![](http://img.shields.io/badge/cool-useless-green.svg)
 ![](http://img.shields.io/badge/mini-verse-blue.svg)
 ![](http://img.shields.io/badge/very-experimental-orange.svg)
+[![Travis build status](https://travis-ci.org/coolbutuseless/minicss.svg?branch=master)](https://travis-ci.org/coolbutuseless/minicss)
 <!-- badges: end -->
 
 The goal of `minicss` is to be able to programatically create CSS styles and style sheets 
@@ -192,6 +193,10 @@ This is an example of using <span class='mini'>minicss</span> to manipulate CSS.
 </div>
 </body>
 </html>")
+```
+
+```{r echo = FALSE}
+html
 ```
 
 
