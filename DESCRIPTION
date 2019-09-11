@@ -1,0 +1,19 @@
+Package: minicss
+Type: Package
+Title: CSS Builder
+Version: 0.1.0
+Author: mikefc
+Maintainer: mikefc <mikefc@coolbutuseless.com>
+Description: CSS builder.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    R6,
+    glue
+RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown,
+    htmltools
+VignetteBuilder: knitr

@@ -1,0 +1,66 @@
+---
+title: "Selectors"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Selectors}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(minicss)
+```
+
+
+
+# CSS Selectors
+
+Selectors are descriptions of HTML entities on a page.  Combined with a list of property/value pairs, they define which elements a particular style applies to.
+
+Selectors may just be given as a character string, but you can also use the `Selector`
+[R6](https://cran.r-project.org/package=R6) class to help build selectors with a
+more complex specification.
+
+
+#### CSS Selectors - Example 1
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# All things with id = 'greg' with class = 'brady'
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+myselector <- Selector$new()
+myselector$class('brady')
+myselector$id('greg')
+
+myselector
+```
+
+
+#### CSS Selectors - Example 2
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# All 'cindy' IDs which are children of 'carol' classes, and 'bobby' IDs which
+# are the last child of 'mike' classes
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+parent1 <- css_sel(".carol")$
+  parent_of('#cindy')
+
+parent2 <- css_sel()$
+  class('mike')$
+  attr(job = 'architect')$
+  parent_of(
+    css_sel()$id('bobby')$pseudo_class(last_child = TRUE)
+  )
+
+parent1$and(parent2)
+
+parent1
+```

@@ -1,0 +1,183 @@
+---
+title: "Animation and Keyframes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{animation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(minicss)
+library(htmltools)
+```
+
+
+# Introduction
+
+Animation using css consists of
+
+1. A set of *keyframes* describing the appearance at multiple timepoints
+2. An *animation* declaration (linked to a particular selector)
+
+## Simple animation in CSS
+
+The following CSS code defines 2 keyframes - the first keyframe defines
+the colour as red, and the second keyframe defines the colour as green.  This 
+set of keyframes is given the name 'example'.
+
+The `.ugly` class contains the `animation` declaration which says the animation 
+should take 1second and should alternate back-and-forth between the two given states
+forever (i.e. `infinite` loops)
+
+```
+@keyframes example1 {
+    from { color: #ff0000; }
+    to   { color: #00ff00; }
+}
+
+.ugly { animation: example1 1s infinite alternate; }
+```
+
+
+## Create the individual frames with `minicss`
+
+Create a keyframe by initialising an R6 object of class `Keyframe`
+
+```{r}
+Keyframe$new(time = 'from', colour = '#000')
+```
+
+
+Create a keyframe by using the `css_keyframe()` function.  
+
+```{r}
+css_keyframe(time = 'to', colour = '#00f')
+```
+
+
+Create a keyframe linked to a particular instant in time i.e. 10% through the animation cycle.
+
+```{r}
+css_keyframe(time = "10%", color = '#123456')
+```
+
+
+## Modify a keyframe
+
+A `Keyframe` object behaves in the same way as `Style` object, individual declarations
+can be updated.
+
+```{r}
+kf <- css_keyframe(time = 'to', colour = '#00f')
+kf$update(margin = '10px')
+
+kf
+```
+
+
+
+
+
+## Combine individual keyframes into a `Keyframes` object  
+
+### Method 1
+```{r}
+frame1 <- css_keyframe(time = "from", color = '#123456')
+frame2 <- css_keyframe(time = "to"  , color = '#0000ff')
+
+keyframes <- Keyframes$new(name = 'example', frame1, frame2)
+keyframes
+```
+
+
+### Method 2
+
+```{r}
+keyframes <- Keyframes$new(
+  name = 'example',
+  css_keyframe(time = "from", color = '#123456'),
+  css_keyframe(time = "to"  , color = '#0000ff')
+)
+
+keyframes
+```
+
+### Method 3
+
+```{r}
+keyframes <- Keyframes$new(name = 'example')
+keyframes$add(time = "from", color = '#123456')
+keyframes$add(time = "to"  , color = '#0000ff')
+
+keyframes
+```
+
+
+## Create an `animation` declaration
+
+
+This will make use of auto-complete
+
+```{r}
+css_prop$animation(name = 'example', duration = 2, iteration_count = 3, direction = 'normal')
+```
+
+
+
+
+## Putting it all together
+
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Construct individual frames
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+k1 <- css_keyframe('from', color = '#ffffff')
+k2 <- css_keyframe('to'  , color = '#123456')
+k2$update(css_prop$transform$translateX(40, 'px'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Combine frames into @keyframes
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+kf <- css_keyframes('ex1', k1, k2)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create style to attach @keyframes to the 'h1' type
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+my_style <- css_style(".swish", font_size = "50px")
+my_style$update(
+    css_prop$animation('ex1', duration = 1, direction = 'alternate')
+)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a style sheet which includes 
+#  - the style for the swish element (including an animation declaration)
+#  - the keyframes definition
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stylesheet <- css_stylesheet(my_style, kf)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a small HTML snippet which uses this style sheet
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+html <- glue::glue("<html><head>
+  <style>{stylesheet}</style>
+  </head>
+  <body>
+  <p class='swish'> Hello #RStats </p>
+  </body></html>")
+```
+
+```{r echo = FALSE}
+html
+HTML(html)
+```
+
+

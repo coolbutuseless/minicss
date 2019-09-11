@@ -1,0 +1,52 @@
+---
+title: "StyleSheets"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{StyleSheets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(minicss)
+```
+
+
+
+# CSS Style Sheets
+
+Style sheets are collections of multiple CSS styles.
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Build a single style
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+marsha <- css_style('#marsha')$
+  update(marsha = 'marsha')$
+  update(css_prop$display$none, width = "100%")
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a style sheet and add the style to it
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sheet <- StyleSheet$new()
+sheet$append(marsha)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Directly create and add a style.
+# Note that the 'update' calls are on the style object, not the sheet.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sheet$add(".greg")$
+  update(css_prop$`align-content`$center)$
+  update(background = "#123456")
+
+
+sheet
+```

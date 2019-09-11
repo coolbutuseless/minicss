@@ -1,0 +1,85 @@
+---
+title: "Properties"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Properties}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(minicss)
+```
+
+
+# CSS Properties
+
+Property declarations are usually name/value pairs defining the value of a 
+particular CSS property e.g. `color: #ff0000`.
+
+Property declarations can be added to styles during intialisation or an update e.g.
+
+```{r}
+my_style <- Style$new("h1", color = '#ff0000')
+my_style$update(margin = '10px')
+
+my_style
+```
+
+
+Since there are a few hundred different property names, the `css_prop` helper makes
+use of auto-complete to help the user write property declarations.
+
+## `css_prop`
+
+```{r}
+css_prop$`align-content`$center
+```
+
+
+```{r}
+css_prop$margin$auto
+```
+
+
+```{r}
+css_prop$color$set('#000')
+```
+
+
+
+
+
+
+
+# More complicated properties
+
+The `animation` and `transform` properties are a bit more complex and have
+entries in `css_prop` which are a more involved.
+
+
+## Animation declarations
+
+```{r}
+css_prop$animation(name = 'example', duration = 10, timing_function = 'ease', 
+                   iteration_count = 'infinite')
+```
+
+
+
+## Transform declarations
+
+Specialized transform helpers exists for all the standard CSS transforms e.g. translate, 
+rotate, skew etc.
+
+```{r}
+css_prop$transform$translate(10, 20, unit = '%')
+```
+

@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^working$
+^data-raw$
+^deprecated$
+^pkgdown$

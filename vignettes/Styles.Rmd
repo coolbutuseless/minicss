@@ -1,0 +1,97 @@
+---
+title: "Styles"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Styles}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(minicss)
+library(glue)
+```
+
+
+# Inline styles
+
+A style is a collection of property/value pairs (called declarations).
+
+Use the `prop` helper to auto-complete some common property name/value pairs.
+
+Use the `imp()` function to create an **!important** property.
+
+
+#### Inline styles - Example 1
+
+```{r}
+inline_style <- Style$new(color = 'white', background = '#123456')
+inline_style
+```
+
+```{r echo = TRUE, eval = FALSE}
+glue("<div style = '{inline_style}'>Hello #RStats</div>")
+```
+
+
+```{r echo = FALSE, eval = TRUE}
+# Inline styles don't show up on github READMEs
+htmltools::HTML(glue("<div style = '{inline_style}'>Hello #RStats</div>"))
+```
+
+
+#### Inline styles - Example 2
+
+Update the pervious style. Use the `prop` helper which uses autocomplete to help
+build a standard property/value pair.
+
+```{r}
+inline_style$
+  update(css_prop$`font-family`$monospace)$
+  update(width = "25%", imp(color = 'green'), font_size = "25px")
+
+inline_style
+```
+
+
+```{r echo = TRUE, eval = FALSE}
+glue("<div style = '{inline_style}'>Hello #RStats</div>")
+```
+
+```{r echo = FALSE, eval = TRUE}
+# Inline styles don't show up on github READMEs
+htmltools::HTML(glue("<div style = '{inline_style}'>Hello #RStats</div>"))
+```
+
+
+
+# CSS Styles
+
+CSS styles are identical to inline styles, except they must include a *selector* - 
+this may be either a character string or a `Selector` object.
+
+The selector can either be defined explicitly with a `selector = "greg"` argument, 
+of if there is a single unnamed argument, that is assumed to be the selector.
+
+```{r}
+# Build a selector first
+selector <- css_sel(".marsha")$child_of('carol')
+
+# Build a style using this selector
+style <- css_style(selector, colour = 'white')$
+  update(css_prop$`text-align`$center)
+
+style
+```
+
+```{r}
+# Or simply use a character string for the selector
+(css_style(".greg", colour = 'blue', margin = 'auto'))
+```
